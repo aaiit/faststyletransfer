@@ -102,7 +102,10 @@ def main():
 	    st.write(opencv_image.shape)
 	    # Now do something with the image! For example, let's display it:
 	    st.image(opencv_image, channels="BGR")
-	    st.image(stylize(opencv_image, style, output_width = 1080), channels="BGR")
+        y = stylize(opencv_image, style, output_width = 1080)
+        print(y.shape,y.max())
+        y = y/255
+	    st.image(y, channels="BGR")
 
 if __name__ == '__main__':
     main()
