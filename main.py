@@ -99,9 +99,9 @@ def main():
 			# Now do something with the image! For example, let's display it:
 			st.image(opencv_image, channels="BGR")
 			y = stylize(opencv_image, style, output_width = 1080)
-			st.write(y.shape,y.max())
-			y = y/y.max()
-			st.image(y, channels="BGR")
+			# st.write(y.shape,y.max())
+			cv2.imwrite("unnamed.jpg",y)
+			st.image("unnamed.jpg")
 
 if __name__ == '__main__':
 	main()
