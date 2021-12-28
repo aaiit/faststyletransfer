@@ -4,10 +4,10 @@ import numpy as np
 
 # from stylize import stylize
 import torch
-import utils
 import transformer
-import os
+import utils
 from torchvision import transforms
+import os
 import time
 import cv2
 
@@ -53,6 +53,10 @@ def main():
 	# if page_options == "Fast style transfer":
 	st.write('### Fast style transfer Demo from ***InData Labs***')
 	
+	images = ["images/%s"%i  for i in os.listdir('images/')]
+	indices = [i.split('.')[0]  for i in os.listdir('images/')]
+	st.image(images, width=100, caption=indices)
+
 	# Get all the available models
 	pretrained_models = ['bayanihan','lazy', 'mosaic', 'starry', 'tokyo_ghoul', 'udnie', 'wave'] 
 	style = st.selectbox("select style:",pretrained_models)
