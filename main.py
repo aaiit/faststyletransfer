@@ -100,7 +100,7 @@ def main():
 			st.image(opencv_image, channels="BGR")
 			y = stylize(opencv_image, style, output_width = 1080)
 			st.write(y.shape,y.max())
-			y = y/255
+			y = y/y.max()
 			st.image(y, channels="BGR")
 
 if __name__ == '__main__':
