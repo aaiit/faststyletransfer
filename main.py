@@ -55,7 +55,7 @@ def main():
 	
 	# Get all the available models
 	pretrained_models = ['bayanihan','lazy', 'mosaic', 'starry', 'tokyo_ghoul', 'udnie', 'wave'] 
-	style = st.selectbox("select style:",pretrained_models[0])
+	style = st.selectbox("select style:",pretrained_models)
 
 	uploaded_file = st.file_uploader("Choose a file")
 
