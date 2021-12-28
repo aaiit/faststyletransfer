@@ -81,8 +81,8 @@ output_path = "/content/ok2.png"
 
 
 
-image = utils.load_image(str(image_path))
-styled_image = stylize(image, style, output_width = 1080)
+# image = utils.load_image(str(image_path))
+# styled_image = stylize(image, style, output_width = 1080)
 
 
 def main():
