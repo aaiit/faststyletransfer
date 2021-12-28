@@ -18,10 +18,10 @@ import cv2
 Input:  
 image (array):  The image need to be styled as np.array or cv2 format
 style (string):  string represent style from trained model
-                There are 5 style you passed in style
-                -> bayanihan, lazy, mosaic, starry, tokyo_ghoul, udnie, wave
+		There are 5 style you passed in style
+		-> bayanihan, lazy, mosaic, starry, tokyo_ghoul, udnie, wave
 preserve_color (boolean): if True, keep the color distribution of the original image
-                                                  if False, use the color distribution of given style
+						  if False, use the color distribution of given style
 
 output_height (int): desired height of output image
 output_width  (int): desired width of output image
@@ -37,37 +37,34 @@ styled_image (array) styled image
 
 def stylize(image, style, perserve_color = False, output_hight = None, output_width = None):
 
-        # Load Transformer Network
-        net = transformer.TransformerNetwork()
-        net.load_state_dict(torch.load(f"./pretrained_models/{style}.pth", map_location=torch.device('cpu')))
-        net = net.to('cpu')
+	# Load Transformer Network
+	net = transformer.TransformerNetwork()
+	net.load_state_dict(torch.load(f"./pretrained_models/{style}.pth", map_location=torch.device('cpu')))
+	net = net.to('cpu')
 
 
-        with torch.no_grad():
-                torch.cuda.empty_cache()
-                print("Start styling image")
+	with torch.no_grad():
+		torch.cuda.empty_cache()
+		print("Start styling image")
 
-                content_image = image
-                if output_width is not None:
-                        if image.shape[1] > output_width:
-                                content_image = utils.resize_image(image, width = output_width, height = output_hight)
+		content_image = image
+		if output_width is not None:
+			if image.shape[1] > output_width:
+				content_image = utils.resize_image(image, width = output_width, height = output_hight)
 
-                elif output_hight is not None:
-                        if image.shape[0] > output_hight:
-                                content_image = utils.resize_image(image, width = output_width, height = output_hight)
+		elif output_hight is not None:
+			if image.shape[0] > output_hight:
+				content_image = utils.resize_image(image, width = output_width, height = output_hight)
 
-
-
-
-                starttime = time.time()
-                content_tensor = utils.itot(content_image).to('cpu')
-                generated_tensor = net(content_tensor)
-                styled_image = utils.ttoi(generated_tensor.detach())
-                if perserve_color:
-                        styled_image = utils.transfer_color(content_image, styled_image)
-                print("Styling Time: {}".format(time.time() - starttime))
-        
-        return styled_image
+		starttime = time.time()
+		content_tensor = utils.itot(content_image).to('cpu')
+		generated_tensor = net(content_tensor)
+		styled_image = utils.ttoi(generated_tensor.detach())
+		if perserve_color:
+			styled_image = utils.transfer_color(content_image, styled_image)
+		print("Styling Time: {}".format(time.time() - starttime))
+	
+	return styled_image
 #transfrom image with proper style 
 # testimage_paths = [""] 
 # image_path = "/content/unnamed.jpg"
@@ -94,18 +91,17 @@ def main():
 	uploaded_file = st.file_uploader("Choose a file")
 
 	# if st.button("Run"):
-	# 	print(uploaded_file)
+	#	  print(uploaded_file)
 	if uploaded_file is not None:
-        # Convert the file to an opencv image.
-        file_bytes = np.asarray(bytearray(uploaded_file.read()), dtype=np.uint8)
-        opencv_image = cv2.imdecode(file_bytes, 1)
-        st.write(opencv_image.shape)
-        # Now do something with the image! For example, let's display it:
-        st.image(opencv_image, channels="BGR")
-        y = stylize(opencv_image, style, output_width = 1080)
-        st.write(y.shape,y.max())
-        y = y/255
-        st.image(y, channels="BGR")
+			file_bytes = np.asarray(bytearray(uploaded_file.read()), dtype=np.uint8)
+			opencv_image = cv2.imdecode(file_bytes, 1)
+			st.write(opencv_image.shape)
+			# Now do something with the image! For example, let's display it:
+			st.image(opencv_image, channels="BGR")
+			y = stylize(opencv_image, style, output_width = 1080)
+			st.write(y.shape,y.max())
+			y = y/255
+			st.image(y, channels="BGR")
 
 if __name__ == '__main__':
-        main()
+	main()
